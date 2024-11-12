@@ -1,9 +1,9 @@
 <template>
   <div class="flex justify-content-start align-items-center">
     <div
-      class="bg-white rounded-lg p-2 mr-6 w-28 h-28 flex items-center justify-center"
+      class="rounded-3xl mr-6 w-28 h-28 flex items-center justify-center overflow-hidden"
     >
-      <img class="" src="@/assets/icon-app-electrs.svg" />
+      <img class="" src="@/assets/icon.svg" />
     </div>
     <div>
       <div class="flex items-center">
@@ -18,7 +18,7 @@
         </svg>
         <p class="ml-1 text-green-400 text-lg">Running</p>
       </div>
-      <h3 class="text-5xl font-semibold  dark:text-white">ElectrumX</h3>
+      <h3 class="text-4xl sm:text-5xl font-semibold  dark:text-white">ElectrumX</h3>
       <span class="text-sm text-gray-500 font-medium">{{
         version ? `v${version}` : "..."
       }}</span>

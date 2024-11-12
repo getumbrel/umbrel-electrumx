@@ -2,7 +2,7 @@
   <div
     class="h-screen flex flex-col items-center justify-center min-h-full p-2"
   >
-    <img alt="Umbrel" src="@/assets/logo.svg" class="mb-16 logo" />
+    <img alt="Umbrel" src="@/assets/icon.svg" class="mb-16 rounded-3xl logo" />
 
     <div class="w-1/4 mb-2">
       <progress-bar :percentage="progress" class="h-1"></progress-bar>
