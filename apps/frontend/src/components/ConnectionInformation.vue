@@ -126,7 +126,8 @@
       >
         Looking for step-by-step instructions to connect your wallet to
         ElectrumX?
-        <a class="underline" href="#">Click here</a>.
+        <!-- TODO: Update this link when support site is live -->
+        <a class="underline" href="https://community.umbrel.com/t/guide-connect-umbrel-to-your-wallet/7653" target="_blank">Click here</a>.
       </p>
     </div>
   </div>
