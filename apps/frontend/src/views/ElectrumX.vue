@@ -42,12 +42,20 @@ export default {
       },
     }),
   },
-  methods: {},
+  methods: {
+    fetchData() {
+      this.$store.dispatch("electrumx/getSyncPercent");
+    }
+  },
   created() {
+    this.fetchData();
     this.$store.dispatch("electrumx/getSyncPercent");
     this.$store.dispatch("electrumx/getConnectionInformation");
+    this.dataInterval = window.setInterval(this.fetchData, 10000);
   },
-  beforeDestroy() {},
+  beforeDestroy() {
+    window.clearInterval(this.dataInterval);
+  },
   components: {
     ConnectionInformation,
     electrumxHeader: Header,
