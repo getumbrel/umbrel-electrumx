@@ -25,7 +25,7 @@ class ElectrumClient {
 }
 
 // Single instance pattern
-const electrumClient = new ElectrumClient(constants.ELECTRUM_HOST, 8000);
+const electrumClient = new ElectrumClient(constants.ELECTRUM_HOST, constants.ELECTRUM_RPC_PORT);
 
 async function getVersion() {
   const info = await electrumClient.request('getinfo');
