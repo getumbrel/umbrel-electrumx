@@ -42,11 +42,11 @@ async function syncPercent() {
   } = await bitcoindService.getBlockChainInfo();
   console.log('bitcoindResponse', bitcoindResponse);
   if (bitcoindResponse.initialblockdownload) {
-    console.log('initialblockdownload', bitcoindResponse.initialblockdownload);
     return -1;
   }
 
   const info = await electrumClient.request('getinfo');
+  console.log('electrumx getinfo', info);
   const dbHeight = info['db height']; // ElectrumX height
   const daemonHeight = info['daemon height']; // Bitcoin node height
 
