@@ -10,16 +10,4 @@ module.exports = {
 
   ELECTRUM_HOST: process.env.ELECTRUM_HOST || "0.0.0.0",
   ELECTRUM_PORT: process.env.ELECTRUM_PORT || 50001,
-
-  LND_REST_HIDDEN_SERVICE_FILE:
-    process.env.LND_REST_HIDDEN_SERVICE_FILE ||
-    "/var/lib/tor/lnd-rest/hostname",
-  LND_GRPC_HIDDEN_SERVICE_FILE:
-    process.env.LND_GRPC_HIDDEN_SERVICE_FILE ||
-    "/var/lib/tor/lnd-grpc/hostname",
-  LND_CERT_FILE: process.env.LND_CERT_FILE || "/lnd/tls.cert",
-  LND_ADMIN_MACAROON_FILE:
-    process.env.LND_ADMIN_MACAROON_FILE ||
-    "/lnd/data/chain/bitcoin/mainnet/admin.macaroon",
-  LND_WALLET_PASSWORD: process.env.LND_WALLET_PASSWORD || "moneyprintergobrrr",
 };
