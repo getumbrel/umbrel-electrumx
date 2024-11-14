@@ -11,6 +11,8 @@ services:
       ELECTRUM_HIDDEN_SERVICE: "somehiddenserviceurl.onion"
       ELECTRUM_LOCAL_SERVICE: "umbrel.local"
       ELECTRUM_HOST: electrumx
+      ELECTRUM_PUBLIC_CONNECTION_PORT: 50001
+      ELECTRUM_RPC_PORT: 8000
       BITCOIN_HOST: bitcoind
       RPC_USER: umbrel
       RPC_PASSWORD: moneyprintergobrrr
