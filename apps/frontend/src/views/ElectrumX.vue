@@ -8,7 +8,7 @@
           Waiting for Bitcoin Node to finish syncing...
         </span>
         <!-- Case 2: Normal sync progress -->
-        <span v-else-if="syncPercent > 0">
+        <span v-else-if="syncPercent >= 0">
           <span>{{ syncPercent >= 99.99 ? 100 : Number(syncPercent).toFixed(0) }}%</span>
           <span class="align-self-end ml-1">Synchronized</span>
         </span>
