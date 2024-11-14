@@ -16,6 +16,10 @@ services:
       BITCOIN_HOST: bitcoind
       RPC_USER: umbrel
       RPC_PASSWORD: moneyprintergobrrr
+      # RPC_PORT: 8332 # mainnet
+      # RPC_PORT: 18332 # testnet
+      # RPC_PORT: 38332 # signet... not available in electrumx 1.16.0
+      RPC_PORT: 18443 # regtest
     ports:
       - "3007:3007"
   electrumx:
@@ -24,8 +28,14 @@ services:
     image: lukechilds/electrumx:v1.16.0@sha256:2949784536f8f85af229004e12e5b5c3a1d7428918a492f77b4e958035c2ae2a
     init: true
     environment:
-      DAEMON_URL: http://umbrel:moneyprintergobrrr@bitcoind:18443
+      # DAEMON_URL: http://umbrel:moneyprintergobrrr@bitcoind:8332 # mainnet
+      # DAEMON_URL: http://umbrel:moneyprintergobrrr@bitcoind:18332 # testnet
+      # DAEMON_URL: http://umbrel:moneyprintergobrrr@bitcoind:38332 # signet... not available in electrumx 1.16.0
+      DAEMON_URL: http://umbrel:moneyprintergobrrr@bitcoind:18443 # regtest
       COIN: BitcoinSegwit
+      # NET: mainnet
+      # NET: testnet
+      # NET: signet
       NET: regtest
     volumes:
       - ${PWD}/data/electrumx:/data
@@ -34,9 +44,10 @@ services:
       - "50001:50001"
   bitcoind:
     image: lncm/bitcoind:v22.0@sha256:37a1adb29b3abc9f972f0d981f45e41e5fca2e22816a023faa9fdc0084aa4507
+    # command: -rpcbind=0.0.0.0 -rpcallowip=0.0.0.0/0 -rpcauth=umbrel:5071d8b3ba93e53e414446ff9f1b7d7b$$375e9731abd2cd2c2c44d2327ec19f4f2644256fdeaf4fc5229bf98b778aafec
+    # command: -testnet -rpcbind=0.0.0.0 -rpcallowip=0.0.0.0/0 -rpcauth=umbrel:5071d8b3ba93e53e414446ff9f1b7d7b$$375e9731abd2cd2c2c44d2327ec19f4f2644256fdeaf4fc5229bf98b778aafec
+    # command: -signet -rpcbind=0.0.0.0 -rpcallowip=0.0.0.0/0 -rpcauth=umbrel:5071d8b3ba93e53e414446ff9f1b7d7b$$375e9731abd2cd2c2c44d2327ec19f4f2644256fdeaf4fc5229bf98b778aafec #... not available in bitcoind 22.0
     command: -regtest -rpcbind=0.0.0.0 -rpcallowip=0.0.0.0/0 -rpcauth=umbrel:5071d8b3ba93e53e414446ff9f1b7d7b$$375e9731abd2cd2c2c44d2327ec19f4f2644256fdeaf4fc5229bf98b778aafec
     volumes:
       - ${PWD}/data/bitcoin:/data/.bitcoin
     restart: on-failure
-    ports:
-      - "18443:18443" # regtest
