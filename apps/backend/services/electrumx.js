@@ -35,11 +35,15 @@ async function getVersion() {
 }
 
 async function syncPercent() {
-  // If Bitcoin node is still syncing, we return null and render the "Waiting for Bitcoin Node to finish syncing..." message in the frontend
+  // If Bitcoin node is still syncing, we return -1 and render the "Waiting for Bitcoin Node to finish syncing..." message in the frontend
   // This way, the sync percent is not calculated until the Bitcoin node is done syncing
-  const { initialblockdownload } = await bitcoindService.getBlockChainInfo();
-  if (initialblockdownload) {
-    return null;
+  const {
+    result: bitcoindResponse
+  } = await bitcoindService.getBlockChainInfo();
+  console.log('bitcoindResponse', bitcoindResponse);
+  if (bitcoindResponse.initialblockdownload) {
+    console.log('initialblockdownload', bitcoindResponse.initialblockdownload);
+    return -1;
   }
 
   const info = await electrumClient.request('getinfo');
