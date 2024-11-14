@@ -3,15 +3,19 @@
     <electrumx-header></electrumx-header>
     <div class="flex justify-end mb-2">
       <h3 class="font-semibold mb-0 text-gray-800 dark:text-gray-200">
-        <span v-if="syncPercent !== -1">
-          <span> {{ syncPercent >= 99.99 ? 100 : syncPercent }}%</span>
+        <!-- Case 1: Bitcoin Node still syncing -->
+        <span v-if="syncPercent === null" class="animate-pulse">
+          Waiting for Bitcoin Node to finish syncing...
+        </span>
+        <!-- Case 2: Normal sync progress -->
+        <span v-else-if="syncPercent > 0">
+          <span>{{ syncPercent >= 99.99 ? 100 : Number(syncPercent).toFixed(0) }}%</span>
           <span class="align-self-end ml-1">Synchronized</span>
         </span>
-        <span
-          class="loading-placeholder loading-placeholder-lg d-block"
-          style="width: 6rem;"
-          v-else
-        ></span>
+        <!-- Case 3: Waiting for ElectrumX response -->
+        <span v-else class="animate-pulse">
+          Connecting to ElectrumX server...
+        </span>
       </h3>
     </div>
     <progress-bar
