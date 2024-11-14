@@ -3,7 +3,7 @@
   "version": "0.3.29",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "VUE_APP_API_URL=http://localhost:3007 vue-cli-service serve",
     "build": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint"
   },
