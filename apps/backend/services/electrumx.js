@@ -1,49 +1,49 @@
-const ElectrumClient = require("@lily-technologies/electrum-client");
+const jayson = require('jayson');
 const bitcoindService = require("services/bitcoind");
 
 const constants = require("utils/const.js");
 
-let rpcClient = new ElectrumClient(
-  constants.ELECTRUM_PORT,
-  constants.ELECTRUM_HOST,
-  "tcp"
-);
-
-(async () => {
-  try {
-    const ver = await rpcClient.initElectrum({
-      client: "umbrel",
-      version: "1.4",
+class ElectrumClient {
+  constructor(host, port) {
+    this.client = new jayson.Client.tcp({
+      host,
+      port,
+      version: 2,
+      delimiter: '\n'
     });
-  } catch (e) {
-    console.log("connect errror: ", e.message);
   }
-})();
 
-async function getVersion() {
-  // versionInfo[0] comes in as "ElectrumX 1.16.0", so we parse
-  const version = rpcClient.versionInfo[0].substring(
-    rpcClient.versionInfo[0].indexOf(" ") + 1
-  );
-  return version;
+  async request(method, params = []) {
+    return new Promise((resolve, reject) => {
+      this.client.request(method, params, (error, response) => {
+        if (error) return reject(error);
+        if (!response?.result) return reject(new Error('Invalid response'));
+        resolve(response.result);
+      });
+    });
+  }
 }
 
-// This is a little hacky way of determining if electrumx is sync'd to bitcoind
-// see https://github.com/romanz/electrumx/pull/543#issuecomment-973078262
+// Single instance pattern
+const electrumClient = new ElectrumClient(constants.ELECTRUM_HOST, 8000);
+
+async function getVersion() {
+  const info = await electrumClient.request('getinfo');
+  return info.version.substring(info.version.indexOf(' ') + 1) ?? 'unknown';
+}
+
 async function syncPercent() {
-  // first, check if bitcoind isn't still IBD
-  const {
-    result: bitcoindResponse,
-  } = await bitcoindService.getBlockChainInfo();
-  if (bitcoindResponse.initialblockdownload) {
-    return 0;
+  const { initialblockdownload } = await bitcoindService.getBlockChainInfo();
+  if (initialblockdownload) {
+    return null;
   }
 
-  // if not IBD, then check bitcoind height to electrumx height
-  const resp = await rpcClient.blockchainHeaders_subscribe();
-  console.log("resp: ", resp);
-  const { height: electrumxHeight } = resp;
-  return Math.ceil((electrumxHeight / bitcoindResponse.blocks) * 100);
+  const info = await electrumClient.request('getinfo');
+  const dbHeight = info['db height'];
+  const daemonHeight = info['daemon height'];
+
+  // returns NaN if daemonHeight is 0, which is falsy and caught by the frontend appropriately
+  return Math.ceil((dbHeight / daemonHeight) * 100);
 }
 
 module.exports = {
