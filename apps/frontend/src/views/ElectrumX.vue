@@ -19,7 +19,7 @@
       </h3>
     </div>
     <progress-bar
-      :percentage="syncPercent"
+      :percentage="progressBarPercentage"
       colorClass="bg-green-400"
       class="h-2"
     ></progress-bar>
@@ -45,6 +45,10 @@ export default {
         return state.electrumx.syncPercent;
       },
     }),
+    progressBarPercentage() {
+      // Clamp the value between 0 and 100 so that -1 and -2 are not displayed as 100%
+      return Math.max(0, Math.min(100, this.syncPercent));
+    }
   },
   methods: {
     fetchData() {

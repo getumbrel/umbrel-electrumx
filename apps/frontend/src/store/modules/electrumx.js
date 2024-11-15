@@ -8,7 +8,10 @@ const state = () => ({
     port: "",
     connectionString: "",
   },
-  syncPercent: 0,
+  // -1: Bitcoin node is still syncing
+  // -2: ElectrumX connection failed
+  // >= 0: ElectrumX sync percent
+  syncPercent: -2,
 });
 
 // Functions to update the state directly

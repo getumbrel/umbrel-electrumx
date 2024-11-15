@@ -35,23 +35,28 @@ async function getVersion() {
 }
 
 async function syncPercent() {
-  // If Bitcoin node is still syncing, we return -1 and render the "Waiting for Bitcoin Node to finish syncing..." message in the frontend
-  // This way, the sync percent is not calculated until the Bitcoin node is done syncing
-  const {
-    result: bitcoindResponse
-  } = await bitcoindService.getBlockChainInfo();
-  console.log('bitcoindResponse', bitcoindResponse);
-  if (bitcoindResponse.initialblockdownload) {
-    return -1;
+  try {
+    // If Bitcoin node is still syncing, we return -1 and render the "Waiting for Bitcoin Node to finish syncing..." message on the frontend
+    // This way, the sync percent is not calculated until the Bitcoin node is done syncing
+    const {
+      result: bitcoindResponse
+    } = await bitcoindService.getBlockChainInfo();
+    console.log('bitcoindResponse', bitcoindResponse);
+    if (bitcoindResponse.initialblockdownload) {
+      return -1;
+    }
+
+    const info = await electrumClient.request('getinfo');
+    console.log('electrumx getinfo', info);
+    const dbHeight = info['db height']; // ElectrumX height
+    const daemonHeight = info['daemon height']; // Bitcoin node height
+
+    return Math.ceil((dbHeight / daemonHeight) * 100);
+  } catch (error) {
+    // If there's an error, which is likely due to a failed connection before ElectrumX is ready to accept connections on port 8000, we return -2
+    // and render "Connecting to ElectrumX server..." on the frontend
+    return -2;
   }
-
-  const info = await electrumClient.request('getinfo');
-  console.log('electrumx getinfo', info);
-  const dbHeight = info['db height']; // ElectrumX height
-  const daemonHeight = info['daemon height']; // Bitcoin node height
-
-  // returns NaN if daemonHeight is 0, which is falsy and caught by the frontend appropriately
-  return Math.ceil((dbHeight / daemonHeight) * 100);
 }
 
 module.exports = {
