@@ -1,0 +1,4 @@
+Legacy license provenance
+=========================
+
+The inherited getumbrel/umbrel-electrumx package at baseline commit d018ace5da1bcc5dd04952bc9ccb0d43e25943b7 declared "license": "ISC" in package.json but did not include a standalone license text or copyright notice. That declaration and the repository history continue to govern the removed legacy source. The current modernization source is distributed under LICENSE.md because its interface architecture derives from the approved PolyForm-licensed sibling implementation.
