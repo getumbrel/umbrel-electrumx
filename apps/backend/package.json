@@ -19,10 +19,9 @@
     "debug": "^2.6.1",
     "dotenv": "^8.2.0",
     "express": "^4.16.3",
-    "jayson": "^4.1.2",
+    "jayson": "5.0.0",
     "module-alias": "^2.1.0",
     "morgan": "^1.9.0",
-    "uuid": "^3.3.2",
     "winston": "^3.0.0-rc5",
     "winston-daily-rotate-file": "^3.1.3"
   },

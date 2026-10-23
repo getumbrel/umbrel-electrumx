@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "autoprefixer": "^9.8.8",
-    "axios": "^0.19.2",
+    "axios": "0.34.0",
     "bignumber.js": "^9.0.0",
     "postcss": "^7.0.39",
     "qrcode.vue": "^1.7.0",
