@@ -9,7 +9,7 @@ async function getElectrumConnectionDetails() {
     const torConnectionString = `${torAddress}:${port}:t`;
 
     const localAddress = constants.ELECTRUM_LOCAL_SERVICE;
-    const localConnectionString = `${torAddress}:${port}:t`;
+    const localConnectionString = `${localAddress}:${port}:t`;
 
     return {
       tor: {
